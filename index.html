@@ -1,267 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>oyunseo</title>
-    <style>
-        /* JSBin의 CSS 패널에 직접 넣어주세요. */
-        body {
-            font-family: 'Malgun Gothic', 'Arial', sans-serif;
-            line-height: 1.5;
-            margin: 0;
-            padding: 20px; /* 전체 페이지 여백 */
-            background-color: #f8f8f8; /* 밝은 배경색 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90vh; /* 화면 전체 높이 사용 */
-            box-sizing: border-box;
-        }
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>My Favorite Fashion Item</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .magazine-page {
-            width: 90%;
-            max-width: 900px; /* 최대 너비 제한 */
-            min-height: 600px; /* 최소 높이 설정 (콘텐츠에 따라 늘어남) */
-            background-color: #ffffff; /* 흰색 배경 */
-            border: 1px solid #e0e0e0; /* 얇은 테두리 */
-            padding: 30px; /* 내부 여백 */
-            display: grid;
-            /* 이전과 동일하게 4개의 컬럼, 5개의 로우 (핵심 구조 유지) */
-            grid-template-columns: 0.8fr 1.8fr 1.8fr 0.8fr;
-            grid-template-rows: auto 2fr 1.5fr auto auto;
-            gap: 20px; /* 그리드 셀 간 간격 */
-        }
+    body {
+      font-family: 'Space Grotesk', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
 
-        /* ------------------ 상단 헤더 ------------------ */
-        .page-header {
-            grid-column: 1 / -1; /* 전체 컬럼 차지 */
-            grid-row: 1;
-            text-align: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #ccc; /* 얇은 구분선 */
-        }
-        .page-header h1 {
-            font-size: 2.2em;
-            color: #333;
-            margin: 0;
-        }
-        .page-header p {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
-        }
+    main {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
 
-        /* ------------------ 메인 이미지 및 주변 텍스트 ------------------ */
-        .main-image-area {
-            grid-column: 2 / 4; /* 중앙 두 컬럼 차지 */
-            grid-row: 2;
-            text-align: center;
-            position: relative;
-        }
-        .main-image-area img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block; /* 이미지 하단 공백 제거 */
-        }
-        .image-caption {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-            color: #fff;
-            padding: 3px 8px;
-            font-size: 0.7em;
-        }
+    h1 {
+      font-size: 2.5em;
+      font-weight: bold;
+      border-bottom: 2px solid black;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
 
-        .intro-text-around-image {
-            grid-column: 1 / 2; /* 좌측 첫 번째 컬럼 차지 */
-            grid-row: 2;
-            padding: 0 10px; /* 좌우 여백 */
-            font-size: 0.85em;
-            line-height: 1.4;
-            color: #444;
-            align-self: start;
-        }
-        .intro-text-around-image h2 {
-            font-size: 1em;
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
+    h2 {
+      margin-top: 60px;
+      font-size: 1.8em;
+    }
 
-        .side-text-around-image {
-            grid-column: 4 / 5; /* 우측 첫 번째 컬럼 차지 */
-            grid-row: 2;
-            padding: 0 10px; /* 좌우 여백 */
-            font-size: 0.85em;
-            line-height: 1.4;
-            color: #444;
-            align-self: end;
-            text-align: right;
-        }
-        .side-text-around-image h3 {
-            font-size: 0.9em;
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
+    img {
+      max-width: 100%;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
 
-        /* ------------------ 하단 본문 섹션 ------------------ */
-        .bottom-content-left {
-            grid-column: 1 / 3; /* 좌측 두 컬럼 차지 */
-            grid-row: 3;
-            padding-right: 15px; /* 컬럼 사이 간격 */
-            text-align: left;
-        }
-        .bottom-content-left h2 {
-            font-size: 1.3em;
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        .bottom-content-left p {
-            font-size: 0.9em;
-            margin-bottom: 0.8em;
-        }
-        .bottom-content-left ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 10px;
-        }
-        .bottom-content-left ul li {
-            padding: 5px 0; /* 배경색 제거, 패딩만 */
-            margin-bottom: 3px;
-            font-size: 0.85em;
-        }
+    .image-credit {
+      font-size: 0.8em;
+      color: #777;
+      margin-top: -10px;
+      margin-bottom: 30px;
+    }
 
-        .bottom-content-right {
-            grid-column: 3 / 5; /* 우측 두 컬럼 차지 */
-            grid-row: 3;
-            padding-left: 15px; /* 컬럼 사이 간격 */
-            text-align: left;
-        }
-        .bottom-content-right h2 {
-            font-size: 1.3em;
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        .bottom-content-right p {
-            font-size: 0.9em;
-            margin-bottom: 0.8em;
-        }
+    #toc {
+      border-radius: 12px;
+      position: fixed;
+      top: 120px;
+      right: 24px;
+      width: 220px;
+      background: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
 
-        /* ------------------ 느낀점 섹션 ------------------ */
-        .reflection {
-            grid-column: 1 / -1; /* 전체 컬럼 차지 */
-            grid-row: 4;
-            background-color: #f0f0f0; /* 연한 회색 배경 */
-            padding: 15px 20px;
-            margin-top: 20px;
-            text-align: left;
-            font-size: 0.9em;
-        }
-        .reflection h2 {
-            font-size: 1.2em;
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 8px;
-        }
+    #toc h3 {
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
 
-        /* ------------------ 푸터 ------------------ */
-        .page-footer {
-            grid-column: 1 / -1; /* 전체 컬럼 차지 */
-            grid-row: 5;
-            text-align: right;
-            margin-top: 15px;
-            color: #999;
-            font-size: 0.75em;
-            padding-top: 8px;
-            border-top: 1px solid #eee;
-        }
+    #toc ul {
+      list-style: none;
+      padding-left: 0;
+    }
 
-        /* 반응형 디자인 (큰 변화 없이 유지) */
-        @media (max-width: 768px) {
-            .magazine-page {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
-                height: auto;
-                padding: 20px;
-            }
-            .page-header, .main-image-area, .intro-text-around-image,
-            .side-text-around-image, .bottom-content-left,
-            .bottom-content-right, .reflection, .page-footer {
-                grid-column: 1 / -1;
-                grid-row: auto;
-                padding: 0;
-                margin-bottom: 15px;
-            }
-            .main-image-area img {
-                max-height: 300px;
-            }
-            .intro-text-around-image, .side-text-around-image {
-                text-align: left;
-            }
-        }
-    </style>
+    #toc li {
+      margin-bottom: 10px;
+    }
+
+    #toc a {
+      text-decoration: none;
+      color: #555;
+    }
+
+    #toc a.active {
+      font-weight: bold;
+      color: black;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+  
 </head>
 <body>
-    <div class="magazine-page">
 
-        <header class="page-header">
-            <h1>My Favorite Fashion Item</h1>
-            <p>Camp Cap</p>
-        </header>
+<main>
+  <h1>My Favorite Fashion Item</h1>
+  <img src="https://i.imgur.com/IWJmt4x.jpeg" alt="Mars Yard Hero Image">
+  <p class="image-credit">이미지 출처: KREAM</p>
+  <p style="font-size: 1.1em; color: #666; margin-bottom: 30px;">
+    내가 가장 좋아하는 패션 아이템은 바로 <strong>Camp Cap</strong>이다. 캠프캡은 원래 아웃도어 활동을 위해 만들어진 모자이다. 하지만 그 단순하고 실용적인 디자인이 스트릿 패션에서 큰 인기를 얻게 되었다. 캠프캡의 대표적인 브랜드로는 Supreme이 있다.
+  </p>
 
-        <div class="intro-text-around-image">
-            <h2>캠프캡의 시작</h2>
-            <p>캠프캡은 원래 아웃도어 활동을 위해 만들어진 모자입니다. 하지만 그 단순하고 실용적인 디자인이 스트릿 패션에서 큰 인기를 얻게 되었습니다. 캠프캡의 대표적인 브랜드는 Supreme이 있습니다.</p>
-        </div>
+  <section class="fade-in" id="why-chosen">
+    <h2>이 아이템을 선택한 이유</h2>
+   
+    <p>
+     편안함과 개성을 동시에 줄 수 있는 패션 아이템이고, 평소 내 스타일과 잘 어울려서 즐겨찾는 모자이다.
+    </p>
+  </section>
 
-        <div class="main-image-area">
-            <img src="https://i.imgur.com/IWJmt4x.jpeg">
-            <span class="image-caption">이미지 출처 : KREAM</span>
-        </div>
+  <section class="fade-in" id="favorite-aspect">
+    <h2>캠프캡을 좋아하는 이유</h2>
+   
+    <p>
+      캠프캡은 챙이 구부러지지 않고 모자의 깊이가 얕아서 머리에 딱 맞는 실루엣이 특징이다. 난 얼굴이 둥근편이라 챙이 구부러진 볼캡을 쓰면 답답하고 얼굴이 커보이는데 캠프캡은 그런점을 보완해주어서 좋다. 또한 캠프캡은 깊이가 얕아서 앞머리를 내린 상태로 착용해도 답답하지 않다는 장점이 있다. 평소에 스트릿하고 캐주얼한 스타일을 많이 입는데 캠프캡을 이용해 코디에 포인트를 주면 좋다.
+    </p>
+  </section>
+  
+    <section class="fade-in" id="style-spp">
+    <h2>캠프캡의 특징</h2>
+       <p>다양한 소재와 디자인</p>
+       <p>편안하고 가벼운 착용감</p>
+       <p>어떤 옷에도 잘 어울림</p>
+       <p>깊이가 얕아서 답답하지 않음</p>
+      </section>
 
-        <div class="side-text-around-image">
-            <h3>이 아이템을 선택한 이유</h3>
-            <p>편안함과 개성을 동시에 줄 수 있는 패션 아이템이다. 평소 내 스타일과 잘 어울려서 즐겨찾는 모자이다.</p>
-        </div>
+  <section class="fade-in" id="style-matching">
+    <h2>캠프캡을 활용한 패션</h2>
+   
+    <p>
+     나는 캠프캡의 편안한 멋을 가장 좋아한다. 따로 꾸미거나 옷에 힘을 주지 않아도 캠프캡 하나만으로도 스타일을 완성할 수 있다. 캐주얼하고 평범한 코디에도 부담없이 쓸 수 있고, 스트릿이나 힙합 패션에서도 포인트를 주기 좋다.
+    </p>
+  </section>
 
-        <article class="bottom-content-left">
-            <h2>캠프캡을 좋아하는 이유</h2>
-            <p>캠프캡은 챙이 구부러지지 않고 모자의 깊이가 얕아서 머리에 딱 맞는 실루엣이 특징이다. 난 얼굴이 둥근편이라 챙이 구부러진 볼캡을 쓰면 답답하고 얼굴이 커보이는데
-          캠프캡은 그런점을 보완해주어서 좋다. 또한 캠프캡은 깊이가 얕아서 앞머리를 내린 상태로 착용해도 답답하지 않다는 장점이 있다.
-          평소에 스트릿하고 캐주얼한 스타일을 많이 입는데 캠프캡을 이용해 코디에 포인트를 주면 좋다.</p>
+  <section class="fade-in" id="reflection">
+    <h2>이 수업을 하며 느낀점</h2>
+    <p><strong>오윤서</strong></p>
+    <p>
+      디지털 프로그래밍 수업을 하며 HTML과 CSS로 다양한 레이아웃을 구성하여 직접 웹페이지를 구성하고 디자인하는 것을 처음 배워보았다. 처음 수업을 들었을 때는 너무 복잡하고 어려워보여서 내가 잘 따라갈 수 있을지 걱정이 되었지만, 매 수업 열심히 교수님의 수업 내용을 따라가며 복습하니 HTML의 구조를 잘 이해할 수 있었다. 내가 할줄 아는 것이 늘어났다는 생각에 뿌듯하였고 이렇게 직접 내가 관심있는 내용으로 웹페이지를 구성해보니 신기하고 유익한 시간이었다. 앞으로 꾸준히 복습하며 배워서 내가 원하는 웹페이지를 자유롭게 디자인하고싶다는 생각이 들었다.
+    </p>
+  </section>
 
-            <h2>캠프캡의 특징</h2>
-            <ul class="features-list">
-                <li>다양한 소재와 디자인</li>
-                <li>편안하고 가벼운 착용감</li>
-                <li>어떤 옷에도 잘 어울림</li>
-                <li>깊이가 얕아서 답답하지 않음</li>
-            </ul>
-        </article>
+</main>
 
-        <article class="bottom-content-right">
-            <h2>캠프캡을 활용한 패션</h2>
-            <p>나는 캠프캡의 편안한 멋을 가장 좋아한다. 따로 꾸미거나 옷에 힘을 주지 않아도 캠프캡 하나만으로도 스타일을 완성할 수 있다. 캐주얼하고 평범한 코디에도 부담없이 쓸 수 있고,
-          스트릿이나 힙합 패션에서도 포인트를 주기 좋다.</p>
-        </article>
+<aside id="toc">
+  <h3>In this article</h3>
+  <ul>
+    <li><a href="#why-chosen">선택한 이유</a></li>
+    <li><a href="#favorite-aspect">좋아하는 이유</a></li>
+        <li><a href="#style-spp">특징</a></li>
+    <li><a href="#style-matching">코디와 활용</a></li>
+    <li><a href="#reflection">수업 소감</a></li>
+  </ul>
+</aside>
 
-        <section class="reflection">
-            <h2>이 프로젝트를 하며 느낀 점</h2>
-            <p>디지털 프로그래밍 수업을 하며 HTML과 CSS로 다양한 레이아웃을 구성하여 직접 웹페이지를 구성하고 디자인하는 것을 처음 배워보았다.
-          처음 수업을 들었을 때는 너무 복잡하고 어려워보여서 내가 잘 따라갈 수 있을지 걱정이 되었지만, 매 수업 열심히 교수님의 수업 내용을 따라가며 복습하니
-          HTML의 구조를 잘 이해할 수 있었다. 내가 할줄 아는 것이 늘어났다는 생각에 뿌듯하였고 이렇게 직접 내가 관심있는 내용으로 웹페이지를 구성해보니 신기하고 유익한 시간이었다.
-          앞으로 꾸준히 복습하며 배워서 내가 원하는 웹페이지를 자유롭게 디자인하고싶다는 생각이 들었다.</p>
-        </section>
+<script>
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('#toc a');
 
-        <footer class="page-footer">
-            <p>22557036 오윤서</p>
-        </footer>
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (pageYOffset >= sectionTop - 150) {
+        current = section.getAttribute('id');
+      }
+    });
 
-    </div>
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+
+  const faders = document.querySelectorAll('.fade-in');
+  const appearOptions = { threshold: 0.2 };
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, appearOptions);
+  faders.forEach(el => observer.observe(el));
+  
+</script>
+
 </body>
 </html>
