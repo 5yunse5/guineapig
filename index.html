@@ -1,294 +1,221 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
-  <meta charset="UTF-8">
-  <title>My Favorite Fashion Item</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Space Grotesk', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f8f8;
-    }
-
-    main {
-      width: 100%;
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 80px 24px;
-      display: grid; /* Grid 레이아웃 활성화 */
-      grid-template-columns: 1fr minmax(auto, 600px) 1fr; /* 좌측 텍스트, 중앙 이미지, 우측 텍스트 */
-      grid-template-areas:
-        "header header header"
-        "left-text main-image right-text"
-        "intro-paragraph intro-paragraph intro-paragraph" /* 첫 번째 문단은 전체 너비 */
-        "section-content section-content section-content"; /* 나머지 섹션은 전체 너비 */
-      gap: 20px 24px; /* 행 간격 20px, 열 간격 24px */
-    }
-
-    h1 {
-      grid-area: header; /* header 영역 차지 */
-      font-size: 2.5em;
-      font-weight: bold;
-      border-bottom: 2px solid black;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      margin-top: 60px;
-      font-size: 1.8em;
-    }
-    
-    .main-image-area {
-      grid-area: main-image; /* main-image 영역 차지 */
-      text-align: center;
-      position: relative;
-    }
-    .main-image-area img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      display: block;
-      border-radius: 10px;
-    }
-    .image-caption {
-      position: absolute;
-      bottom: 5px;
-      right: 5px;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      padding: 3px 8px;
-      font-size: 0.7em;
-      border-radius: 0 0 8px 0;
-    }
-
-    .side-text {
-      font-size: 0.85em; /* 본문 텍스트보다 작게 */
-      line-height: 1.4;
-      color: #444;
-      align-self: start; /* 상단 정렬 */
-      padding: 0 10px; /* 좌우 여백 */
-    }
-
-    .side-text h3 {
-        font-size: 1em; /* 제목 크기 조절 */
-        color: #333;
-        margin-top: 0;
-        margin-bottom: 5px;
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>My Favorite Fashion Item</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html {
+      scroll-behavior: smooth;
     }
 
-    .left-text {
-      grid-area: left-text; /* left-text 영역 차지 */
-    }
-
-    .right-text {
-      grid-area: right-text; /* right-text 영역 차지 */
-    }
-
-    /* 첫 번째 인트로 문단은 전체 너비 차지 */
-    .intro-paragraph {
-        grid-area: intro-paragraph;
-        font-size: 1.1em;
-        color: #666;
-        margin-bottom: 30px;
+    body {
+      font-family: 'Space Grotesk', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
     }
 
-    /* 나머지 섹션도 전체 너비 차지 */
-    section {
-        grid-column: 1 / -1; /* 모든 섹션이 전체 컬럼을 차지하도록 */
+    main {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 80px 24px;
     }
 
+    h1 {
+      font-size: 2.5em;
+      font-weight: bold;
+      border-bottom: 2px solid black;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
 
-    #toc {
-      border-radius: 12px;
-      position: fixed;
-      top: 120px;
-      right: 24px;
-      width: 220px;
-      background: white;
-      padding: 20px;
-      border: 1px solid #ddd;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    }
-
-    #toc h3 {
-      font-size: 1.1em;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
-    }
-
-    #toc ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    #toc li {
-      margin-bottom: 10px;
-    }
-
-    #toc a {
-      text-decoration: none;
-      color: #555;
-    }
-
-    #toc a.active {
-      font-weight: bold;
-      color: black;
-    }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* 반응형 디자인을 위한 미디어 쿼리 */
-    @media (max-width: 900px) { /* 태블릿/모바일 화면에 맞춰 그리드 변경 */
-        main {
-            grid-template-columns: 1fr; /* 모든 요소를 한 줄로 */
-            grid-template-areas:
-                "header"
-                "left-text"
-                "main-image"
-                "right-text"
-                "intro-paragraph"
-                "section-content";
+    h2 {
+      margin-top: 60px;
+      font-size: 1.8em;
+    }
+    
+     .intro-text-around-image {
+            grid-column: 1 / 2; /* 좌측 첫 번째 컬럼 차지 */
+            grid-row: 2;
+            padding: 0 10px; /* 좌우 여백 */
+            font-size: 0.85em;
+            line-height: 1.4;
+            color: #444;
+            align-self: start;
         }
-        .side-text {
-            padding: 0; /* 좌우 여백 제거 */
+        .intro-text-around-image h3 {
+            font-size: 1em;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 5px;
         }
-        #toc {
-            position: static;
-            width: auto;
-            margin: 20px auto;
-            right: auto;
-            top: auto;
-            box-shadow: none;
-            border: none;
-        }
+
+
+    img {
+      max-width: 100%;
+      margin: 20px 0;
+      border-radius: 10px;
     }
-  </style>
-  
+
+    .image-credit {
+      font-size: 0.8em;
+      color: #777;
+      margin-top: -10px;
+      margin-bottom: 30px;
+    }
+
+    #toc {
+      border-radius: 12px;
+      position: fixed;
+      top: 120px;
+      right: 24px;
+      width: 220px;
+      background: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    #toc h3 {
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    #toc ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    #toc li {
+      margin-bottom: 10px;
+    }
+
+    #toc a {
+      text-decoration: none;
+      color: #555;
+    }
+
+    #toc a.active {
+      font-weight: bold;
+      color: black;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+  
 </head>
 <body>
 
 <main>
-  <h1>My Favorite Fashion Item</h1>
-  
-    <div class="side-text left-text">
-    <h3>캠프캡의 시작</h3>
-    <p>
-캠프캡은 원래 아웃도어 활동을 위해 만들어진 모자이다. 하지만 그 단순하고 실용적인 디자인이 스트릿 패션에서 큰 인기를 얻게 되었다.
-   <h3>캠프캡의 대중적인 브랜드</h3>
-    <p> Supreme, Human Made, BAPE
-  </div>
+  <h1>My Favorite Fashion Item</h1>
+  <img src="https://i.imgur.com/IWJmt4x.jpeg" alt="Mars Yard Hero Image">
+  <p class="image-credit">이미지 출처: KREAM</p>
+  <p style="font-size: 1.1em; color: #666; margin-bottom: 30px;">
+    내가 가장 좋아하는 패션 아이템은 바로 <strong>Camp Cap</strong>이다. 캠프캡은 원래 아웃도어 활동을 위해 만들어진 모자이다. 하지만 그 단순하고 실용적인 디자인이 스트릿 패션에서 큰 인기를 얻게 되었다. 캠프캡의 대표적인 브랜드로는 Supreme이 있다.
+  </p>
+  
+  
 
-    <div class="main-image-area">
-    <img src="https://i.imgur.com/IWJmt4x.jpeg" alt="Mars Yard Hero Image">
-    <span class="image-caption">이미지 출처: KREAM</span>
-  </div>
+  <section class="fade-in" id="why-chosen">
+    <h2>이 아이템을 선택한 이유</h2>
+   
+    <p>
+     편안함과 개성을 동시에 줄 수 있는 패션 아이템이고, 평소 내 스타일과 잘 어울려서 즐겨찾는 모자이다.
+    </p>
+  </section>
 
-  
+  <section class="fade-in" id="favorite-aspect">
+    <h2>캠프캡을 좋아하는 이유</h2>
+   
+    <p>
+      캠프캡은 챙이 구부러지지 않고 모자의 깊이가 얕아서 머리에 딱 맞는 실루엣이 특징이다. 난 얼굴이 둥근편이라 챙이 구부러진 볼캡을 쓰면 답답하고 얼굴이 커보이는데 캠프캡은 그런점을 보완해주어서 좋다. 또한 캠프캡은 깊이가 얕아서 앞머리를 내린 상태로 착용해도 답답하지 않다는 장점이 있다. 평소에 스트릿하고 캐주얼한 스타일을 많이 입는데 캠프캡을 이용해 코디에 포인트를 주면 좋다.
+    </p>
+  </section>
+  
+    <section class="fade-in" id="style-spp">
+    <h2>캠프캡의 특징</h2>
+       <p>다양한 소재와 디자인</p>
+       <p>편안하고 가벼운 착용감</p>
+       <p>어떤 옷에도 잘 어울림</p>
+       <p>깊이가 얕아서 답답하지 않음</p>
+      </section>
 
-  <section class="fade-in" id="why-chosen">
-    <h2>이 아이템을 선택한 이유</h2>
-   
-    <p>
-     편안함과 개성을 동시에 줄 수 있는 패션 아이템이고, 평소 내 스타일과 잘 어울려서 즐겨찾는 모자이다.
-    </p>
-  </section>
+  <section class="fade-in" id="style-matching">
+    <h2>캠프캡을 활용한 패션</h2>
+   
+    <p>
+     나는 캠프캡의 편안한 멋을 가장 좋아한다. 따로 꾸미거나 옷에 힘을 주지 않아도 캠프캡 하나만으로도 스타일을 완성할 수 있다. 캐주얼하고 평범한 코디에도 부담없이 쓸 수 있고, 스트릿이나 힙합 패션에서도 포인트를 주기 좋다.
+    </p>
+  </section>
 
-  <section class="fade-in" id="favorite-aspect">
-    <h2>캠프캡을 좋아하는 이유</h2>
-   
-    <p>
-      캠프캡은 챙이 구부러지지 않고 모자의 깊이가 얕아서 머리에 딱 맞는 실루엣이 특징이다. 난 얼굴이 둥근편이라 챙이 구부러진 볼캡을 쓰면 답답하고 얼굴이 커보이는데 캠프캡은 그런점을 보완해주어서 좋다. 또한 캠프캡은 깊이가 얕아서 앞머리를 내린 상태로 착용해도 답답하지 않다는 장점이 있다. 평소에 스트릿하고 캐주얼한 스타일을 많이 입는데 캠프캡을 이용해 코디에 포인트를 주면 좋다.
-    </p>
-  </section>
-  
-    <section class="fade-in" id="style-spp">
-    <h2>캠프캡의 특징</h2>
-       <p>다양한 소재와 디자인</p>
-       <p>편안하고 가벼운 착용감</p>
-       <p>어떤 옷에도 잘 어울림</p>
-       <p>깊이가 얕아서 답답하지 않음</p>
-      </section>
-
-  <section class="fade-in" id="style-matching">
-    <h2>캠프캡을 활용한 패션</h2>
-   
-    <p>
-     나는 캠프캡의 편안한 멋을 가장 좋아한다. 따로 꾸미거나 옷에 힘을 주지 않아도 캠프캡 하나만으로도 스타일을 완성할 수 있다. 캐주얼하고 평범한 코디에도 부담없이 쓸 수 있고, 스트릿이나 힙합 패션에서도 포인트를 주기 좋다.
-    </p>
-  </section>
-
-  <section class="fade-in" id="reflection">
-    <h2>이 수업을 하며 느낀점</h2>
-    <p><strong>오윤서</strong></p>
-    <p>
-      디지털 프로그래밍 수업을 하며 HTML과 CSS로 다양한 레이아웃을 구성하여 직접 웹페이지를 구성하고 디자인하는 것을 처음 배워보았다. 처음 수업을 들었을 때는 너무 복잡하고 어려워보여서 내가 잘 따라갈 수 있을지 걱정이 되었지만, 매 수업 열심히 교수님의 수업 내용을 따라가며 복습하니 HTML의 구조를 잘 이해할 수 있었다. 내가 할줄 아는 것이 늘어났다는 생각에 뿌듯하였고 이렇게 직접 내가 관심있는 내용으로 웹페이지를 구성해보니 신기하고 유익한 시간이었다. 앞으로 꾸준히 복습하며 배워서 내가 원하는 웹페이지를 자유롭게 디자인하고싶다는 생각이 들었다.
-    </p>
-  </section>
+  <section class="fade-in" id="reflection">
+    <h2>이 수업을 하며 느낀점</h2>
+    <p><strong>오윤서</strong></p>
+    <p>
+      디지털 프로그래밍 수업을 하며 HTML과 CSS로 다양한 레이아웃을 구성하여 직접 웹페이지를 구성하고 디자인하는 것을 처음 배워보았다. 처음 수업을 들었을 때는 너무 복잡하고 어려워보여서 내가 잘 따라갈 수 있을지 걱정이 되었지만, 매 수업 열심히 교수님의 수업 내용을 따라가며 복습하니 HTML의 구조를 잘 이해할 수 있었다. 내가 할줄 아는 것이 늘어났다는 생각에 뿌듯하였고 이렇게 직접 내가 관심있는 내용으로 웹페이지를 구성해보니 신기하고 유익한 시간이었다. 앞으로 꾸준히 복습하며 배워서 내가 원하는 웹페이지를 자유롭게 디자인하고싶다는 생각이 들었다.
+    </p>
+  </section>
 
 </main>
 
 <aside id="toc">
-  <h3>In this article</h3>
-  <ul>
-    <li><a href="#why-chosen">선택한 이유</a></li>
-    <li><a href="#favorite-aspect">좋아하는 이유</a></li>
-        <li><a href="#style-spp">특징</a></li>
-    <li><a href="#style-matching">코디와 활용</a></li>
-    <li><a href="#reflection">수업 소감</a></li>
-  </ul>
+  <h3>In this article</h3>
+  <ul>
+    <li><a href="#why-chosen">선택한 이유</a></li>
+    <li><a href="#favorite-aspect">좋아하는 이유</a></li>
+        <li><a href="#style-spp">특징</a></li>
+    <li><a href="#style-matching">코디와 활용</a></li>
+    <li><a href="#reflection">수업 소감</a></li>
+  </ul>
 </aside>
 
 <script>
-  const sections = document.querySelectorAll('section');
-  const navLinks = document.querySelectorAll('#toc a');
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('#toc a');
 
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      if (pageYOffset >= sectionTop - 150) {
-        current = section.getAttribute('id');
-      }
-    });
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (pageYOffset >= sectionTop - 150) {
+        current = section.getAttribute('id');
+      }
+    });
 
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === '#' + current) {
-        link.classList.add('active');
-      }
-    });
-  });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
 
-  const faders = document.querySelectorAll('.fade-in');
-  const appearOptions = { threshold: 0.2 };
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, appearOptions);
-  faders.forEach(el => observer.observe(el));
-  
+  const faders = document.querySelectorAll('.fade-in');
+  const appearOptions = { threshold: 0.2 };
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, appearOptions);
+  faders.forEach(el => observer.observe(el));
+  
 </script>
 
 </body>
